@@ -1,0 +1,27 @@
+# Redirect plain HTTP on this host to HTTPS
+http://watchtower.local {
+    redir https://watchtower.local{uri}
+}
+
+# Main HTTPS site for Watchtower Collector
+https://watchtower.local {
+    # For LAN / dev usage; in production you might use real certificates.
+    tls internal
+
+    # Compress responses
+    encode zstd gzip
+
+    # --- Optional: Admin surface protection ---
+    # Only allow /events and /admin/* from a trusted network or IP range.
+    # Adjust the CIDR to match your environment, or remove this block.
+    @admin_protected {
+        path /events*
+        path /admin/*
+        not remote_ip 10.0.0.0/8 192.168.0.0/16 172.16.0.0/12
+    }
+    respond @admin_protected "Forbidden" 403
+
+    # Everything else goes to FastAPI/uvicorn running on localhost:8000
+    reverse_proxy 127.0.0.1:8000
+}
+

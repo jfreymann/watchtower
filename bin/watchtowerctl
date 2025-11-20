@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COLLECTOR_UNIT="watchtower-collector.service"
+AGENT_UNIT="watchtower-agent.service"
+
+usage() {
+  cat <<EOF
+Watchtower control script
+
+Usage:
+  watchtowerctl status
+  watchtowerctl start
+  watchtowerctl stop
+  watchtowerctl restart
+  watchtowerctl logs [collector|agent] [lines]
+  watchtowerctl tail [collector|agent]
+
+Examples:
+  watchtowerctl status
+  watchtowerctl restart
+  watchtowerctl logs collector 100
+  watchtowerctl tail agent
+
+EOF
+}
+
+resolve_unit() {
+  local which="${1:-collector}"
+  case "${which}" in
+    collector) echo "${COLLECTOR_UNIT}" ;;
+    agent)     echo "${AGENT_UNIT}" ;;
+    *)
+      echo "Unknown target: ${which} (expected 'collector' or 'agent')" >&2
+      exit 1
+      ;;
+  esac
+}
+
+cmd_status() {
+  echo "== ${COLLECTOR_UNIT} =="
+  sudo systemctl --no-pager status "${COLLECTOR_UNIT}" || true
+  echo
+  echo "== ${AGENT_UNIT} =="
+  sudo systemctl --no-pager status "${AGENT_UNIT}" || true
+}
+
+cmd_start() {
+  echo "Starting Watchtower services..."
+  sudo systemctl start "${COLLECTOR_UNIT}"
+  sudo systemctl start "${AGENT_UNIT}"
+  cmd_status
+}
+
+cmd_stop() {
+  echo "Stopping Watchtower services..."
+  sudo systemctl stop "${AGENT_UNIT}" || true
+  sudo systemctl stop "${COLLECTOR_UNIT}" || true
+  cmd_status
+}
+
+cmd_restart() {
+  echo "Restarting Watchtower services..."
+  sudo systemctl restart "${COLLECTOR_UNIT}"
+  sudo systemctl restart "${AGENT_UNIT}"
+  cmd_status
+}
+
+cmd_logs() {
+  local which="${1:-collector}"
+  local lines="${2:-50}"
+  local unit
+  unit="$(resolve_unit "${which}")"
+  sudo journalctl -u "${unit}" -n "${lines}" -xe
+}
+
+cmd_tail() {
+  local which="${1:-collector}"
+  local unit
+  unit="$(resolve_unit "${which}")"
+  echo "Tailing logs for ${unit} (Ctrl+C to exit)..."
+  sudo journalctl -u "${unit}" -f
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "${cmd}" in
+  status)   cmd_status "$@" ;;
+  start)    cmd_start "$@" ;;
+  stop)     cmd_stop "$@" ;;
+  restart)  cmd_restart "$@" ;;
+  logs)     cmd_logs "$@" ;;
+  tail)     cmd_tail "$@" ;;
+  help|--help|-h) usage ;;
+  *)
+    echo "Unknown command: ${cmd}" >&2
+    usage
+    exit 1
+    ;;
+esac

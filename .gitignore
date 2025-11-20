@@ -1,0 +1,127 @@
+# Security-sensitive files
+# These files contain credentials, tokens, or internal context
+CLAUDE.md
+**/CLAUDE.md
+.env
+**/.env
+*.key
+*.pem
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# Keep example/sample files for documentation
+!**/.env-sample
+!**/.env.example
+!**/example.env
+
+# Database files
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# API tokens and credentials
+*token*
+*secret*
+*credentials*
+*.passwd
+*.password
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.virtualenv
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Runtime files
+*.pid
+*.sock
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+
+# Caddy data directory (if using Caddy locally)
+caddy_data/
+caddy_config/
+
+# systemd override files (may contain local config)
+*.service.d/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.swp
+
+# Documentation build artifacts
+site/
+_build/

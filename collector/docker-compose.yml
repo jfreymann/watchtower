@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  watchtower/collector:
+    image: python:3.12-slim
+    container_name: watchtower/collector
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+      - watchtower_data:/var/lib/watchtower/collector
+    environment:
+      LOGIN_ALERT_TOKEN: "CHANGE_ME_AGENT_TOKEN"
+      ADMIN_API_KEY: "CHANGE_ME_ADMIN_KEY"
+      DATABASE_URL: "sqlite:////var/lib/watchtower/collector/watchtower.db"
+      # SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/XXX/YYY/ZZZ"
+    command: >
+      sh -c "
+        pip install --no-cache-dir fastapi 'uvicorn[standard]' SQLAlchemy 'pydantic>=2.0' requests &&
+        uvicorn main:app --host 0.0.0.0 --port 8000
+      "
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  watchtower_data:
+

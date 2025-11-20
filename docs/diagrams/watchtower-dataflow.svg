@@ -1,0 +1,69 @@
+<svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill:#020617; }
+    .box { fill:#111827; stroke:#4B5563; stroke-width:1.2; rx:8; ry:8; }
+    .label { fill:#E5E7EB; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:13px; }
+    .caption { fill:#9CA3AF; font-size:11px; }
+    .step { fill:#FBBF24; font-weight:600; font-size:12px; }
+    .arrow { stroke:#9CA3AF; stroke-width:1.4; marker-end:url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9CA3AF"></polygon>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="900" height="420"></rect>
+
+  <text x="450" y="36" text-anchor="middle" class="label">Watchtower Dataflow – SSH Login Event Lifecycle</text>
+
+  <!-- Step 1: SSH login -->
+  <rect class="box" x="70" y="80" width="220" height="80"></rect>
+  <text x="90" y="102" class="step">1</text>
+  <text x="190" y="102" text-anchor="middle" class="label">SSH Login</text>
+  <text x="190" y="122" text-anchor="middle" class="caption">User authenticates via sshd</text>
+
+  <!-- Step 2: journald -->
+  <rect class="box" x="340" y="80" width="220" height="80"></rect>
+  <text x="360" y="102" class="step">2</text>
+  <text x="450" y="102" text-anchor="middle" class="label">systemd-journald</text>
+  <text x="450" y="122" text-anchor="middle" class="caption">Entry in ssh.service logs</text>
+
+  <!-- Step 3: Agent parse -->
+  <rect class="box" x="610" y="80" width="220" height="80"></rect>
+  <text x="630" y="102" class="step">3</text>
+  <text x="720" y="102" text-anchor="middle" class="label">Watchtower Agent</text>
+  <text x="720" y="122" text-anchor="middle" class="caption">Regex parse + metadata</text>
+
+  <line class="arrow" x1="290" y1="120" x2="340" y2="120"></line>
+  <line class="arrow" x1="560" y1="120" x2="610" y2="120"></line>
+
+  <!-- Step 4: HTTPS -->
+  <rect class="box" x="200" y="210" width="220" height="80"></rect>
+  <text x="220" y="232" class="step">4</text>
+  <text x="310" y="232" text-anchor="middle" class="label">HTTPS POST /login</text>
+  <text x="310" y="252" text-anchor="middle" class="caption">JSON payload + token header</text>
+
+  <line class="arrow" x1="720" y1="160" x2="310" y2="210"></line>
+
+  <!-- Step 5: Collector -->
+  <rect class="box" x="480" y="210" width="220" height="80"></rect>
+  <text x="500" y="232" class="step">5</text>
+  <text x="590" y="232" text-anchor="middle" class="label">Watchtower Collector</text>
+  <text x="590" y="252" text-anchor="middle" class="caption">Token validation + enrich</text>
+
+  <line class="arrow" x1="420" y1="250" x2="480" y2="250"></line>
+
+  <!-- Step 6: DB -->
+  <ellipse cx="740" cy="250" rx="80" ry="26" fill="#020617" stroke="#4B5563" stroke-width="1.2"></ellipse>
+  <text x="740" y="252" text-anchor="middle" class="label">SQLite: login_events</text>
+
+  <line class="arrow" x1="700" y1="250" x2="660" y2="250"></line>
+
+  <!-- Step 7: Admin query -->
+  <rect class="box" x="300" y="320" width="300" height="80"></rect>
+  <text x="320" y="342" class="step">7</text>
+  <text x="450" y="342" text-anchor="middle" class="label">Admin queries /events</text>
+  <text x="450" y="362" text-anchor="middle" class="caption">Filter by hours, limit, region, host_group, ...</text>
+</svg>

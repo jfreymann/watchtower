@@ -1,0 +1,13 @@
+{
+  "type": "login",
+  "timestamp": "2025-02-20T03:22:14Z",
+  "hostname": "apollo",
+  "user": "root",
+  "method": "publickey",
+  "source_ip": "203.0.113.22",
+  "source_port": "54421",
+  "raw_message": "Accepted publickey for root from 203.0.113.22 port 54421 ssh2",
+  "region": "us-east",
+  "host_group": "prod",
+  "severity": "info"
+}

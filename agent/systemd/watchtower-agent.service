@@ -1,0 +1,40 @@
+[Unit]
+Description=Watchtower Agent (SSH login watcher)
+After=network-online.target systemd-journald.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/watchtower/agent
+EnvironmentFile=/opt/watchtower/agent/.env
+
+ExecStart=/usr/bin/env python3 /opt/watchtower/agent/watchtower_agent.py
+
+User=watchtower/agent
+Group=watchtower/agent
+
+Restart=always
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+LockPersonality=yes
+MemoryDenyWriteExecute=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+# Agent needs read-only access to logs and journal
+ReadOnlyPaths=/var/log /run/log /var/run/log /var/log/journal
+# Code directory is read-only
+ReadOnlyPaths=/opt/watchtower/agent
+
+[Install]
+WantedBy=multi-user.target
