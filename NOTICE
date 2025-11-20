@@ -1,0 +1,62 @@
+Watchtower - Distributed Security Telemetry System
+Copyright © 2025 Jaye Freymann / The Watchtower Project
+
+This software is licensed under the Watchtower Community License 1.0.
+See LICENSE.md for complete terms.
+
+================================================================================
+
+Third-Party Components
+================================================================================
+
+This software includes or depends on the following open-source components:
+
+FastAPI
+Copyright © 2018 Sebastián Ramírez
+License: MIT License
+https://github.com/tiangolo/fastapi
+
+Uvicorn
+Copyright © 2017-present, Encode OSS Ltd.
+License: BSD License
+https://github.com/encode/uvicorn
+
+SQLAlchemy
+Copyright © 2005-2024 Michael Bayer and contributors
+License: MIT License
+https://github.com/sqlalchemy/sqlalchemy
+
+Pydantic
+Copyright © 2017-2024 Samuel Colvin and contributors
+License: MIT License
+https://github.com/pydantic/pydantic
+
+Requests
+Copyright © 2019 Kenneth Reitz
+License: Apache License 2.0
+https://github.com/psf/requests
+
+Caddy
+Copyright © 2015 Matthew Holt and contributors
+License: Apache License 2.0
+https://github.com/caddyserver/caddy
+
+================================================================================
+
+Trademark Notice
+================================================================================
+
+"Watchtower" and the Watchtower logo are trademarks of Jaye Freymann.
+
+Unauthorized use of these trademarks is prohibited.
+
+================================================================================
+
+Contact
+================================================================================
+
+For licensing inquiries, commercial licenses, or questions:
+Email: jfreymann@gmail.com
+Project: https://github.com/jfreymann/watchtower
+
+================================================================================

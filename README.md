@@ -399,16 +399,20 @@ Each login event includes:
 
 Contributions are welcome! Whether it's new event types, UI improvements, or clustering features.
 
+**Important:** By contributing, you agree that your contributions will be licensed under the Watchtower Community License 1.0.
+
 **PRs should:**
 - Include tests where applicable
 - Pass linting (ruff, black, or equivalent)
 - Include documentation updates
 - Maintain the security posture
+- Include proper copyright headers
 
 **Before submitting:**
 1. Review the [Security Policy](security.md)
-2. Check existing issues and PRs
-3. Open an issue for discussion on major changes
+2. Review the [Licensing Guide](docs/licensing-guide.md)
+3. Check existing issues and PRs
+4. Open an issue for discussion on major changes
 
 ---
 
@@ -429,9 +433,25 @@ Readable logs, searchable events, simple deployment, CLI-friendly, Git-friendly.
 
 ## 📜 License
 
-Watchtower is released under the **MIT License**.
+Watchtower is released under the **Watchtower Community License 1.0**.
 
-See [LICENSE](LICENSE) for details.
+### License Summary
+
+- ✅ **Permitted:** Personal use, internal business use, viewing and modifying source code
+- ❌ **Prohibited:** Commercial use, redistribution, SaaS hosting, competitive products
+- 💼 **Commercial licensing available** for enterprise use, redistribution, or SaaS deployment
+
+**Key Restrictions:**
+- No redistribution of the software or modified versions
+- No commercial use without a valid commercial license
+- No offering Watchtower as a hosted/SaaS service
+- No use in competing monitoring or security products
+- Attribution and copyright notices must be preserved
+
+**Commercial License:**
+For commercial usage, redistribution rights, SaaS hosting, enterprise deployment, or integration into paid products, contact **jfreymann@gmail.com** for licensing options.
+
+See [LICENSE.md](LICENSE.md) for complete terms.
 
 ---
 
