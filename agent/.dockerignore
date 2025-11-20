@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+README.md
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# Docker compose (not needed in image)
+docker-compose.yml
+
+# Systemd (not used in Docker)
+systemd/
+
+# Security files
+CLAUDE.md

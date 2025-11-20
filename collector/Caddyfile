@@ -1,0 +1,89 @@
+{
+    # Global options
+    admin off
+    auto_https off
+}
+
+# Main site configuration
+:80, :443 {
+    # Enable TLS with internal CA
+    tls internal {
+        on_demand
+    }
+
+    # Logging
+    log {
+        output stdout
+        format json
+        level INFO
+    }
+
+    # Compression
+    encode zstd gzip
+
+    # Admin endpoint IP restrictions
+    @admin_protected {
+        path /events*
+        path /admin/*
+        not remote_ip {$ADMIN_IP}
+    }
+    respond @admin_protected "Forbidden" 403
+
+    # Rate limiting for login endpoint (optional)
+    @login_endpoint {
+        path /login
+    }
+    # Uncomment to enable rate limiting
+    # rate_limit @login_endpoint {
+    #     zone login {
+    #         key {remote_host}
+    #         events 100
+    #         window 1m
+    #     }
+    # }
+
+    # Health check endpoint (no auth required)
+    handle /healthz {
+        reverse_proxy collector:8000 {
+            health_uri /healthz
+            health_interval 10s
+            health_timeout 5s
+        }
+    }
+
+    # All other endpoints go to the collector
+    reverse_proxy collector:8000 {
+        # Preserve original headers
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        # Health checking
+        health_uri /healthz
+        health_interval 10s
+        health_timeout 5s
+
+        # Error handling
+        @error status 502 503 504
+        handle_response @error {
+            respond "Service temporarily unavailable" 503
+        }
+    }
+
+    # Security headers
+    header {
+        # Remove server info
+        -Server
+
+        # Security headers
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+
+        # Don't leak version info
+        -X-Powered-By
+    }
+}

@@ -1,24 +1,25 @@
 version: "3.9"
 
+# Complete Watchtower Stack
+# This compose file runs both the collector and agent together
+# Useful for testing or single-host deployments
+
 services:
   # Watchtower Collector - FastAPI Backend
   collector:
     build:
-      context: .
+      context: ./collector
       dockerfile: Dockerfile
     container_name: watchtower-collector
     restart: unless-stopped
     networks:
       - watchtower-net
     volumes:
-      # Database volume
       - watchtower-data:/var/lib/watchtower
-      # Mount code as read-only for security
-      - ./main.py:/app/main.py:ro
-      - ./models.py:/app/models.py:ro
-      - ./database.py:/app/database.py:ro
+      - ./collector/main.py:/app/main.py:ro
+      - ./collector/models.py:/app/models.py:ro
+      - ./collector/database.py:/app/database.py:ro
     environment:
-      # Set these in .env file or override here
       LOGIN_ALERT_TOKEN: ${LOGIN_ALERT_TOKEN:-changeme-agent-token}
       ADMIN_API_KEY: ${ADMIN_API_KEY:-changeme-admin-key}
       SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:-}
@@ -28,16 +29,13 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    # Only expose to Caddy, not the host directly
     expose:
       - "8000"
-    # Security options
     security_opt:
       - no-new-privileges:true
     read_only: true
     tmpfs:
       - /tmp:noexec,nosuid,size=64M
-    # Resource limits
     deploy:
       resources:
         limits:
@@ -55,20 +53,14 @@ services:
     networks:
       - watchtower-net
     ports:
-      # HTTPS only
-      - "443:443"
-      # HTTP for redirect to HTTPS
-      - "80:80"
+      - "${HTTPS_PORT:-443}:443"
+      - "${HTTP_PORT:-80}:80"
     volumes:
-      # Caddyfile configuration
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      # Caddy data for certificates
+      - ./collector/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
       - caddy-config:/config
     environment:
-      # Set your domain/hostname
       DOMAIN: ${WATCHTOWER_DOMAIN:-watchtower.local}
-      # Admin IP whitelist (comma-separated)
       ADMIN_IP: ${ADMIN_IP:-192.168.1.0/24}
     depends_on:
       collector:
@@ -79,13 +71,53 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    # Security options
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
     cap_add:
       - NET_BIND_SERVICE
+
+  # Watchtower Agent - SSH Login Monitor (optional on same host)
+  agent:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    container_name: watchtower-agent
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /var/log/journal:/var/log/journal:ro
+      - /run/systemd/journal:/run/systemd/journal:ro
+      - ./agent/watchtower_agent.py:/app/watchtower_agent.py:ro
+    environment:
+      WATCHTOWER_COLLECTOR_URL: ${WATCHTOWER_COLLECTOR_URL:-https://localhost/login}
+      WATCHTOWER_TOKEN: ${WATCHTOWER_TOKEN:-changeme-agent-token}
+      WATCHTOWER_REGION: ${WATCHTOWER_REGION:-}
+      WATCHTOWER_HOST_GROUP: ${WATCHTOWER_HOST_GROUP:-docker-stack}
+      WATCHTOWER_SEVERITY: ${WATCHTOWER_SEVERITY:-info}
+      WATCHTOWER_FLAGGED: ${WATCHTOWER_FLAGGED:-false}
+      WATCHTOWER_VERIFY_TLS: ${WATCHTOWER_VERIFY_TLS:-false}
+      WATCHTOWER_SSH_UNIT: ${WATCHTOWER_SSH_UNIT:-ssh.service}
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=32M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 32M
+    depends_on:
+      caddy:
+        condition: service_healthy
+    # Comment out this service if running agent on remote hosts only
+    profiles:
+      - with-agent
 
 networks:
   watchtower-net:

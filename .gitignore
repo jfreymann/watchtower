@@ -113,6 +113,10 @@ Desktop.ini
 caddy_data/
 caddy_config/
 
+# Docker
+.env.docker
+docker-compose.override.yml
+
 # systemd override files (may contain local config)
 *.service.d/
 

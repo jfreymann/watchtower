@@ -1,0 +1,53 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+README.md
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Database files (will be in volume)
+*.db
+*.db-wal
+*.db-shm
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# Docker compose (not needed in image)
+docker-compose.yml
+
+# Systemd (not used in Docker)
+systemd/
+
+# Caddy data (will be in volume)
+caddy_data/
+caddy_config/
+
+# Example files
+CaddyFile.example

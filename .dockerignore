@@ -1,0 +1,76 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+examples/
+operations/
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Database files
+*.db
+*.db-wal
+*.db-shm
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Security files
+CLAUDE.md
+*.key
+*.pem
+*.crt
+
+# Build artifacts
+build/
+dist/
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Caddy
+caddy_data/
+caddy_config/
+
+# Systemd
+systemd/
+
+# Scripts (not needed in container)
+scripts/
+bin/
+
+# Temporary files
+tmp/
+*.tmp
