@@ -1,4 +1,11 @@
-# database.py
+# Copyright © 2025 Jaye Freymann / The Watchtower Project
+#
+# This file is part of Watchtower, licensed under the Watchtower Community License 1.0.
+# You may not use this file except in compliance with the License.
+# See LICENSE.md for details.
+#
+# For commercial licensing: jfreymann@gmail.com
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 

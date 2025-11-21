@@ -9,6 +9,21 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/jfreymann/watchtower/blob/main/LICENSE.md">
+    <img src="https://img.shields.io/badge/License-Watchtower%20Community%201.0-blue.svg" alt="License: Watchtower Community 1.0">
+  </a>
+  <a href="https://github.com/jfreymann/watchtower/releases">
+    <img src="https://img.shields.io/github/v/release/jfreymann/watchtower?include_prereleases" alt="GitHub release">
+  </a>
+  <a href="https://github.com/jfreymann/watchtower/commits/main">
+    <img src="https://img.shields.io/github/last-commit/jfreymann/watchtower" alt="Last commit">
+  </a>
+  <a href="https://github.com/jfreymann/watchtower/stargazers">
+    <img src="https://img.shields.io/github/stars/jfreymann/watchtower?style=social" alt="GitHub stars">
+  </a>
+</p>
+
+<p align="center">
   <a href="#-features">Features</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-architecture">Architecture</a> •
