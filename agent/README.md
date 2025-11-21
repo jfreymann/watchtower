@@ -252,7 +252,13 @@ curl -k "https://watchtower.local/events?hours=1&limit=10" \
 
 ## 📜 License
 
-MIT License
+**Watchtower Community License 1.0** (source-available, non-commercial)
+
+- ✅ Personal use and internal business use permitted
+- ❌ No commercial use, redistribution, or SaaS hosting without license
+- 💼 Commercial licensing available: jfreymann@gmail.com
+
+See [LICENSE.md](../LICENSE.md) for complete terms.
 
 ## ❤️ Credits
 

@@ -128,4 +128,8 @@ See the main project overview for more:
 
 ## 📜 License
 
-Watchtower is released under the MIT License.
+Watchtower is released under the **Watchtower Community License 1.0** (source-available, non-commercial).
+
+See [LICENSE.md](../LICENSE.md) for complete terms.
+
+For commercial licensing: jfreymann@gmail.com

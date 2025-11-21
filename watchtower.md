@@ -204,7 +204,7 @@ watchtower/
 │
 ├── logs/                            # (optional)
 │
-└── LICENSE
+└── LICENSE.md
 ```
 
 ---
